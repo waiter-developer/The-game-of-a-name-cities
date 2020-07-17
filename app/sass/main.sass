@@ -1,24 +1,29 @@
 @import confing
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@300;400;700&display=swap')
-
-
-
-
-
+@import url('https://fonts.googleapis.com/css2?family=Modak&display=swap')
 
 body
-  background: rgba(250, 250, 210, 0.11)
+  background: rgba(196, 238, 199, 0.62)
   font-family: 'Dosis', sans-serif
-  font-size: 1rem
+  font-size: 18px
+  line-height: 1.7
+
+
+.game_box
+  display: grid
+  grid-template-columns: 1fr 1fr 1fr
+  column-gap: 25px
+  align-content: end
+  padding: 100px 20px
+
+  .game_box_item
+    border-radius: 25px
 
 
 
-
-
-
-@import whateverHeader
-@import whateverBody
-@import whateverFooter
+@import safeCities
+@import compareCities
+@import forseCities
 @import LoginPopUP
 
 @import mediaQuerys
