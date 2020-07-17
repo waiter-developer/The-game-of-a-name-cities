@@ -1,19 +1,29 @@
 
 
 .popUp_wrapper
+  position: relative
   padding:
         top: 1rem
   width: 940px
   height: 320px
-  background-color: rgba(232, 189, 100, 0.32)
-  border: 1px solid #000
+  background-color: rgba(232, 189, 100, 0.74)
   border-radius: 25px
+  box-shadow: inset 0 0 25px 20px white
   text-align: center
+  &:after
+    content: ''
+    position: absolute
+    top: 0
+    left: 0
+    width: inherit
+    height: inherit
+    box-shadow:  0 0 25px 10px black
+    z-index: -1000
   .popUp_wrapper_text
-    font-size: 1.5rem
-    font-weight: bold
     margin: 0
-        bottom: .5rem
+      bottom: .5rem
+    font-family: 'Modak', cursive
+    font-size: 1.5rem
     color: darkslategray
   .popUp_wrapper_input
     width: 350px
@@ -44,3 +54,6 @@
   .bi
     font-weight: bold
     font-size: 1.5rem
+
+.popUp_off
+  display: none
