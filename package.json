@@ -4,7 +4,6 @@
   "description": "HTML SASS CSS JS GULP4",
   "main": "index.js",
   "scripts": {
-    "build": "tsc -w",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -20,6 +19,7 @@
   "devDependencies": {
     "browser-sync": "^2.26.13",
     "del": "^6.0.0",
+    "glob-stream": "^6.1.0",
     "gulp": "^4.0.2",
     "gulp-autoprefixer": "^7.0.1",
     "gulp-clean-css": "^4.3.0",
@@ -27,6 +27,7 @@
     "gulp-imagemin": "^7.1.0",
     "gulp-newer": "^1.4.0",
     "gulp-sass": "^4.1.0",
+    "gulp-typescript": "^6.0.0-alpha.1",
     "gulp-uglify-es": "^2.0.0",
     "node-sass": "^5.0.0",
     "tslint": "^6.1.3",

@@ -6,13 +6,13 @@ let preprocessor = 'sass' ,
     online = true
 
 const paths = {
-
+    transpiler: {
+        src: `${baseDir}/js/app.ts`,
+        dest: `${baseDir}/js`
+    },
     scripts: {
-                src: [
-                    `${baseDir}/js/app.js`// should be at the end
-                ],
-
-                dest: `${baseDir}/js`
+        src: `${baseDir}/js/index.js`,
+        dest: `${baseDir}/js`
     },
 
     styles: {
@@ -24,24 +24,23 @@ const paths = {
         src: `${baseDir}/images/src/**/*`,
         dest: `${baseDir}/images/dest`
     },
-
     cssOutputName: 'app.min.css',
-    jsOutputName: 'app.min.js'
+    jsOutputName: 'index.min.js'
 }
 
-const  { src, dest, series, parallel, watch } = require('gulp')
-const browserSync  = require('browser-sync').create()
-const concat       = require('gulp-concat')
+const  { src, dest, series, parallel, watch } = require('gulp');
+const browserSync  = require('browser-sync').create();
+const concat       = require('gulp-concat');
 const uglify       = require('gulp-uglify-es').default
-const autoprefixer = require('gulp-autoprefixer')
-const cleancss     = require('gulp-clean-css')
-const newer        = require('gulp-newer')
-const imgagemin    = require('gulp-imagemin')
-const del          = require('del')
-const sass         = require('gulp-sass')
-
-//const normalize_sass = require('node-normalize-scss') { includePaths: normalize_sass.includePaths }
-
+const autoprefixer = require('gulp-autoprefixer');
+const cleancss     = require('gulp-clean-css');
+const newer        = require('gulp-newer');
+const imgagemin    = require('gulp-imagemin');
+const del          = require('del');
+const sass         = require('gulp-sass');
+const ts           = require('gulp-typescript');
+const tsProject = ts.createProject('tsconfig.js');
+const gs           = require('glob-stream');
 
 function browsersync() {
     browserSync.init({
@@ -51,6 +50,14 @@ function browsersync() {
         notify: false,
         online: online
     })
+}
+
+function tsTranspiler(){
+    return tsProject.src()
+        .pipe(tsProject())
+        .js
+        .pipe(dest(paths.transpiler.dest))
+        .pipe(browserSync.stream())
 }
 
 function scripts() {
@@ -69,7 +76,6 @@ function styles() {
         .pipe(cleancss({ level: { 1: { specialComments: 0 } } }))
         .pipe(dest(paths.styles.dest))
         .pipe(browserSync.stream())
-
 }
 
 function images() {
@@ -85,21 +91,21 @@ function cleaning() {
 }
 
 function startWatch() {
-    watch(`${baseDir}/**/${preprocessor}/**/*`, styles)
-    watch(`${baseDir}/**/*.${imagesWatch}`, images)
-    watch(`${baseDir}/**/*.${filesWatch}`).on('change', browserSync.reload)
-    watch([`${baseDir}/**/*.js`, `!${paths.scripts.dest}/*.min.js`], scripts)
+    watch(`${baseDir}/**/${preprocessor}/**/*`, styles);
+    watch(`${baseDir}/**/*.${imagesWatch}`, images);
+    watch(`${baseDir}/**/*.${filesWatch}`).on('change', browserSync.reload);
+    watch(`${baseDir}/**/*.ts`, tsTranspiler);
+    watch([`${baseDir}/**/*.js`, `!${paths.scripts.dest}/*.min.js`], scripts);
 }
 
-
-
-exports.browsersync = browsersync
-exports.scripts = scripts
-exports.styles = styles
-exports.images = images
-exports.cleening = cleaning
-exports.assets = series(cleaning, styles, scripts, images)
-exports.default = parallel(images, styles, scripts, browsersync, startWatch)
+exports.browsersync = browsersync;
+exports.scripts = scripts;
+exports.styles = styles;
+exports.images = images;
+exports.cleening = cleaning;
+exports.tsTranspiler = tsTranspiler;
+exports.assets = series(cleaning, styles, tsTranspiler,scripts, images);
+exports.default = parallel(images, styles, tsTranspiler, scripts, browsersync, startWatch);
 
 
 
