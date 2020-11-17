@@ -61,7 +61,7 @@ function tsTranspiler(){
 }
 
 function scripts() {
-    return src(paths.scripts.src, {allowEmpty: true})
+    return src(paths.scripts.src, { allowEmpty: true })
         .pipe(concat(paths.jsOutputName))
         .pipe(uglify())
         .pipe(dest(paths.scripts.dest))
